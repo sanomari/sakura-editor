@@ -32,6 +32,8 @@
 #define SAKURA_CDLGPROFILEMGR_E77A329C_4D06_436A_84E3_01B4D8F34A9A_H_
 #pragma once
 
+#include "env/CProfileManager.h"
+
 #include "dlg/CDialog.h"
 #include "_main/CCommandLine.h"
 #include <filesystem>
@@ -39,56 +41,40 @@
 #include <string_view>
 #include <vector>
 
-struct SProfileSettings
-{
-	WCHAR m_szDllLanguage[_MAX_PATH];
-	int	m_nDefaultIndex;
-	std::vector<std::wstring> m_vProfList;
-	bool m_bDefaultSelect;
-};
-
+/*!
+	@brief プロファイルマネージャダイアログ
+ */
 class CDlgProfileMgr final : public CDialog
 {
+	CProfileManager manager_;
+	int currentIndex_;
+	bool startAfterClose;
+
 public:
 	//! コマンドラインだけでプロファイルが確定するか調べる
 	static bool TrySelectProfile( CCommandLine* pcCommandLine ) noexcept;
 
-	/*
-	||  Constructors
-	*/
 	CDlgProfileMgr();
-	/*
-	||  Attributes & Operations
-	*/
+	virtual ~CDlgProfileMgr() = default;
+
 	int		DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam);	/* モーダルダイアログの表示 */
 
+	std::wstring m_strProfileName;
+
 protected:
+	int		GetData() override;
+	void	SetData() /*const*/ override;
 
+	BOOL	OnInitDialog(HWND hwndDlg, WPARAM wParam, LPARAM lParam) override;
 	BOOL	OnBnClicked(int wID) override;
-	INT_PTR	DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam ) override;
+	BOOL	OnLbnSelChange(HWND hwndCtl, int wID) override;
 
-	void	SetData() override;	/* ダイアログデータの設定 */
-	void	SetData(int nSelIndex);	/* ダイアログデータの設定 */
-	int		GetData() override;	/* ダイアログデータの取得 */
-	int		GetData(bool bStart);	/* ダイアログデータの取得 */
-	LPVOID	GetHelpIdTable(void) override;
-
-	void	UpdateIni();
 	void	CreateProf();
 	void	DeleteProf();
 	void	RenameProf();
-	void	SetDefaultProf(int index);
-	void	ClearDefaultProf();
-public:
-	std::wstring m_strProfileName;
+	void	SetDefaultProf();
 
-	static bool ReadProfSettings(SProfileSettings& settings);
-	static bool WriteProfSettings(SProfileSettings& settings);
+	LPVOID	GetHelpIdTable(void) override;
 };
-
-std::filesystem::path GetProfileMgrFileName();
-std::filesystem::path GetProfileDirectory(const std::wstring& name);
-
-[[nodiscard]] std::wstring GetProfileMgrFileName(const std::wstring_view& name);
 
 #endif /* SAKURA_CDLGPROFILEMGR_E77A329C_4D06_436A_84E3_01B4D8F34A9A_H_ */

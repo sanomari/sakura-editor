@@ -406,6 +406,7 @@
     <ClInclude Include="..\sakura_core\env\CFormatManager.h" />
     <ClInclude Include="..\sakura_core\env\CHelpManager.h" />
     <ClInclude Include="..\sakura_core\env\CommonSetting.h" />
+    <ClInclude Include="..\sakura_core\env\CProfileManager.h" />
     <ClInclude Include="..\sakura_core\env\CSakuraEnvironment.h" />
     <ClInclude Include="..\sakura_core\env\CSearchKeywordManager.h" />
     <ClInclude Include="..\sakura_core\env\CShareData.h" />
@@ -770,6 +771,7 @@
     <ClCompile Include="..\sakura_core\env\CFormatManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CHelpManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CommonSetting.cpp" />
+    <ClCompile Include="..\sakura_core\env\CProfileManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CSakuraEnvironment.cpp" />
     <ClCompile Include="..\sakura_core\env\CSearchKeywordManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CShareData.cpp" />
